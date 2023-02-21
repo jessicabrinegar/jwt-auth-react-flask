@@ -16,3 +16,26 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
+
+
+# registration route for a user -- send post request to create new instance of class User to save to database
+# send back the JWT in response
+# @api.route('/register', methods=['POST'])
+# def create_user():
+    # request body
+    # rb = request.get_json()
+    # new_user = User(
+    #     email=rb["email"], 
+        # need to hash the password!
+        # password=bcrypt.hashpw(rb["password"].encode('utf-8'), bcrypt.gensalt()), 
+        # is_active=True
+        # )
+    # db.session.add(new_user)
+    # db.session.commit()
+    # access_token = create_access_token(identity=new_user.email)
+    # return access_token, 200
+
+#@api.route('/restricted', methods=['GET'])
+# to make a restricted route, apply the following decorator: 
+#@jwt_required
+# def get_restricted():
