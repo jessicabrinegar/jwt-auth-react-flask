@@ -32,8 +32,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         console.log("Logging out.");
         setStore({ token: null });
       },
-      // if you return something in an async fx, that will translate into a .then when used on the login page
-      login: async (email, password) => {
+      register: async (email, username, password) => {
         const opts = {
           method: "POST",
           headers: {
@@ -41,12 +40,44 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify({
             email: email,
+            username: username,
             password: password,
           }),
         };
         try {
           const resp = await fetch(
-            "https://3001-jessicabrin-jwtauthreac-1p1yby95osh.ws-us87.gitpod.io/api/token",
+            "https://3001-jessicabrin-jwtauthreac-1p1yby95osh.ws-us87.gitpod.io/api/register",
+            opts
+          );
+          if (resp.status != 200) {
+            alert("There has been some error.");
+            return false;
+          }
+          const data = await resp.json();
+          console.log("this came from backend: ", data);
+          localStorage.setItem("token", data.access_token);
+          // login view will refresh after store is set because it is hooked to context API, rerendering the component
+          setStore({ token: data.access_token });
+          return true;
+        } catch (error) {
+          console.error("There has been an error registering.");
+        }
+      },
+      // if you return something in an async fx, that will translate into a .then when used on the login page
+      login: async (username, password) => {
+        const opts = {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password,
+          }),
+        };
+        try {
+          const resp = await fetch(
+            "https://3001-jessicabrin-jwtauthreac-1p1yby95osh.ws-us87.gitpod.io/api/login",
             opts
           );
           if (resp.status != 200) {

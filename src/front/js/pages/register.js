@@ -2,9 +2,11 @@ import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 // import { useHistory } from "react-router-dom";
 import "../../styles/home.css";
+import { Link } from "react-router-dom";
 
-export const Login = () => {
+export const Register = () => {
   const { store, actions } = useContext(Context);
+  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   // const history = useHistory();
@@ -13,7 +15,7 @@ export const Login = () => {
 
   const handleClick = () => {
     // if the login was successful (returned true), the .then will be called
-    actions.login(username, password); //.then(() => {
+    actions.register(email, username, password); //.then(() => {
     //history.push("/");
     //});
   };
@@ -23,14 +25,20 @@ export const Login = () => {
 
   return (
     <div className="text-center mt-5">
-      <h1>Login</h1>
+      <h1>Register</h1>
       {store.token && store.token != "" && store.token != undefined ? (
-        "You are logged in with this token" + store.token
+        "You are registered."
       ) : (
         <div>
           <input
             type="text"
             placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          ></input>
+          <input
+            type="text"
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           ></input>
@@ -40,7 +48,9 @@ export const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           ></input>
-          <button onClick={handleClick}>Login</button>
+          <Link to="/login">
+            <button onClick={handleClick}>Login</button>
+          </Link>
         </div>
       )}
     </div>
