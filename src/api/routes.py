@@ -12,10 +12,17 @@ from flask_jwt_extended import JWTManager
 # Create flask app 
 api = Blueprint('api', __name__)
 
+# Allow CORS for all domains
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
+
 # Create a route to authenticate your users and return JWTs. The
 # create_access_token() function is used to actually generate the JWT.
 @api.route("/login", methods=["POST"])
-def create_login():
+def create_token():
     # email = request.json.get("email", None)
     username = request.json.get("username", None)
     password = request.json.get("password", None)
@@ -25,17 +32,33 @@ def create_login():
     return jsonify(access_token=access_token), 200
 
 
-# @api.route("/register", methods=["POST"])
-# def create_user():
-#     request_body = request.get_json()
-#     new_user = User(
-#         email = request_body["email"],
-#         username = request_body["username"],
-#         password = request_body["password"],
-#         is_active = True,
-#     )
-#     db.session.add(new_user)
-#     db.session.commit()
+@api.route("/register", methods=["POST"])
+# @api.after_request()
+def create_user():
+    # body = request.get_json()
+    name = request.json.get("name", None)
+    username = request.json.get("username", None)
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    new_user = User(
+        name = name,
+        username = username,
+        email = email,
+        password = password,
+        is_active = True,
+    )
+    # new_user = User(
+    #     name = body["name"],
+    #     email = body["email"],
+    #     username = body["username"],
+    #     password = body["password"],
+    #     is_active = True,
+    # )
+    db.session.add(new_user)
+    db.session.commit()
+    return f"User {rb['name']} was created.", 200
+
+
 #     access_token = create_access_token(identity=new_user.username)
 #     return jsonify(access_token = access_token), 200
     # email = request.json.get("email", None)

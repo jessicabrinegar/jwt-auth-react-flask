@@ -32,13 +32,19 @@ const getState = ({ getStore, getActions, setStore }) => {
         console.log("Logging out.");
         setStore({ token: null });
       },
-      register: async (email, username, password) => {
+      register: async (name, email, username, password) => {
         const opts = {
+          mode: "no-cors",
           method: "POST",
           headers: {
             "content-type": "application/json",
+            "Access-Control-Allow-Origin":
+              "https://3000-jessicabrin-jwtauthreac-1p1yby95osh.ws-us87.gitpod.io/register",
+            // "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            // "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
           },
           body: JSON.stringify({
+            name: name,
             email: email,
             username: username,
             password: password,
@@ -55,9 +61,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await resp.json();
           console.log("this came from backend: ", data);
-          localStorage.setItem("token", data.access_token);
-          // login view will refresh after store is set because it is hooked to context API, rerendering the component
-          setStore({ token: data.access_token });
           return true;
         } catch (error) {
           console.error("There has been an error registering.");
