@@ -7,13 +7,13 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
 export const Register = () => {
-  const { register, handleSubmit } = useForm();
+  // const { register, handleSubmit } = useForm();
   const { store, actions } = useContext(Context);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  // const [confirmPassword, setConfirmPassword] = useState("");
   // const history = useHistory();
   // dont need this since you have it in store now (see return)
   // const token = localStorage.getItem("token");
@@ -25,7 +25,7 @@ export const Register = () => {
 
   const handleClick = () => {
     // if the login was successful (returned true), the .then will be called
-    actions.register(email, username, password); //.then(() => {
+    actions.register(name, email, username, password); //.then(() => {
     //history.push("/");
     //});
   };
@@ -43,41 +43,37 @@ export const Register = () => {
           <input
             type="text"
             placeholder="Name"
-            {...register("name")}
-            value={firstname}
+            value={name}
             onChange={(e) => setName(e.target.value)}
           ></input>
           <input
             type="text"
             placeholder="Email"
-            {...register("email")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           ></input>
           <input
             type="text"
             placeholder="Username"
-            {...register("username")}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           ></input>
           <input
             type="password"
             placeholder="Password"
-            {...register("password")}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           ></input>
-          <input
+          {/* <input
             type="password"
             placeholder="Confirm Password"
-            {...register("confirmPassword")}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-          ></input>
-          {/* <Link to="/login"></Link> */}
-          {/* <button onClick={handleClick}>Submit</button> */}
-          <input type="submit"></input>
+          ></input> */}
+          <Link to="/login">
+            /* <button onClick={handleClick}>Submit</button>
+          </Link>
+          {/* <input type="submit"></input> */}
         </form>
       )}
     </div>

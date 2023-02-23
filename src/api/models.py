@@ -9,6 +9,8 @@ class User(db.Model):
     email = db.Column(db.String(80), unique=True, nullable=False)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
+    # gives error: sqlalchemy.exc.IntegrityError: (psycopg2.errors.NotNullViolation) column "access_token" contains null values
+    access_token = db.Column(db.String(80), unique=True, null=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
 
     def __repr__(self):
